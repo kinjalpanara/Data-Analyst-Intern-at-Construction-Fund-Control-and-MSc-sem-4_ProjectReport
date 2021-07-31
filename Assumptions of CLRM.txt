@@ -1,0 +1,80 @@
+
+
+#Global Stat checks whether the relationship between the dependent and independent relationship roughly linear. We can see that the assumption is not met.
+#Skewness and kurtosis assumptions show that the distribution of the residuals are not normal.
+#Link function checks to see if the dependent variable is continuous or categorical. Our variable is not continuous.
+#Heteroskedasticity assumption means the error variance is equally random and we don't have homoskedasticity!
+
+
+> library("readxl")
+> data=read_excel("C:\\Users\\Dell\\Desktop\\BIBirbal\\data_coded.xlsx")
+> summary(model <- lm(Sales ~ Credit_Days + Quantity + Profit  + Discount_inPercentage + Customer_ID_coded + Ship_Mode_coded + Region_coded  + Segment_coded + Category_coded + Unit_Price + year_month_coded,data=data))
+
+
+Call:
+lm(formula = Sales ~ Credit_Days + Quantity + Profit + Discount_inPercentage + 
+    Customer_ID_coded + Ship_Mode_coded + Region_coded + Segment_coded + 
+    Category_coded + Unit_Price + year_month_coded, data = data)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-2561444   -37614     9289    41938  2867593 
+
+Coefficients:
+                        Estimate Std. Error t value Pr(>|t|)    
+(Intercept)           -1.340e+05  1.425e+04  -9.404  < 2e-16 ***
+Credit_Days           -3.029e+02  2.554e+02  -1.186    0.236    
+Quantity               3.263e+04  8.396e+02  38.859  < 2e-16 ***
+Profit                 8.549e-01  1.326e-02  64.495  < 2e-16 ***
+Discount_inPercentage -4.320e+04  9.366e+03  -4.613 4.04e-06 ***
+Customer_ID_coded      1.119e+01  9.113e+00   1.227    0.220    
+Ship_Mode_coded       -1.649e+03  2.037e+03  -0.810    0.418    
+Region_coded           5.229e+02  1.386e+03   0.377    0.706    
+Segment_coded         -7.773e+02  2.107e+03  -0.369    0.712    
+Category_coded         1.630e+04  2.974e+03   5.479 4.43e-08 ***
+Unit_Price             2.739e+00  1.579e-02 173.467  < 2e-16 ***
+year_month_coded      -2.313e+02  1.868e+02  -1.239    0.216    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 152200 on 6670 degrees of freedom
+Multiple R-squared:  0.8626,	Adjusted R-squared:  0.8624 
+F-statistic:  3808 on 11 and 6670 DF,  p-value: < 2.2e-16
+
+
+
+> library("gvlma")
+> gvlma_object <- gvlma(model)
+> gvlma_object
+
+
+
+Call:
+lm(formula = Sales ~ Credit_Days + Quantity + Profit + Discount_inPercentage + 
+    Customer_ID_coded + Ship_Mode_coded + Region_coded + Segment_coded + 
+    Category_coded + Unit_Price + year_month_coded, data = data)
+
+Coefficients:
+          (Intercept)            Credit_Days               Quantity  
+           -1.340e+05             -3.029e+02              3.263e+04  
+               Profit  Discount_inPercentage      Customer_ID_coded  
+            8.549e-01             -4.320e+04              1.119e+01  
+      Ship_Mode_coded           Region_coded          Segment_coded  
+           -1.649e+03              5.229e+02             -7.773e+02  
+       Category_coded             Unit_Price       year_month_coded  
+            1.630e+04              2.739e+00             -2.313e+02  
+
+
+ASSESSMENT OF THE LINEAR MODEL ASSUMPTIONS
+USING THE GLOBAL TEST ON 4 DEGREES-OF-FREEDOM:
+Level of Significance =  0.05 
+
+Call:
+ gvlma(x = model) 
+
+                       Value   p-value                   Decision
+Global Stat        2.075e+06 0.000e+00 Assumptions NOT satisfied!
+Skewness           4.511e+03 0.000e+00 Assumptions NOT satisfied!
+Kurtosis           2.070e+06 0.000e+00 Assumptions NOT satisfied!
+Link Function      2.109e+02 0.000e+00 Assumptions NOT satisfied!
+Heteroscedasticity 5.874e+01 1.799e-14 Assumptions NOT satisfied!
